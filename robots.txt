@@ -1,0 +1,24 @@
+# robots.txt - SEO Configuration for HomeStyle
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /products.html
+Allow: /blog.html
+Allow: /contact.html
+Allow: /css/
+Allow: /js/
+Allow: /blog/
+
+# Disallow private pages (if any)
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://yourwebsite.com/sitemap.xml
+
+# Crawl delay (in seconds)
+Crawl-delay: 1
+
+# Request rate (pages per second)
+Request-rate: 1/1s
