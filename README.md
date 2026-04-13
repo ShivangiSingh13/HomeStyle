@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # HomeStyle - Premium Furniture & Home Decor E-Commerce Website
 
 A modern, SEO-optimized e-commerce website built with HTML, CSS, and JavaScript featuring furniture, home decor, and study setup products.
@@ -285,4 +284,3 @@ This website template is created for educational and commercial purposes.
 Enjoy building your e-commerce presence with HomeStyle! 🏠✨
 =======
 # HomeStyle
->>>>>>> 9ff5c4c465deb3c4d0d0e0dcaa0925f9ab0b5cfb
