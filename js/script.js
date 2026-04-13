@@ -148,9 +148,8 @@ function renderProducts(productsToRender) {
     return;
   }
 
-  // Check if this is the home page featured section or product listing page
-  const isHomePage = document.querySelector('[data-products-container]') && 
-                     document.querySelector('.products-section h2')?.textContent.includes('Featured');
+  // Check if this is the home page (not products.html page)
+  const isHomePage = !window.location.pathname.includes('products.html');
   
   let productsToDisplay = productsToRender;
 
@@ -679,7 +678,16 @@ function renderBlogPosts(posts = blogPosts) {
   const blogGrid = document.querySelector('.blog-grid');
   if (!blogGrid) return;
 
-  blogGrid.innerHTML = posts.map(post => `
+  // Check if this is the home page (not products.html page)
+  const isHomePage = !window.location.pathname.includes('products.html') && 
+                     !window.location.pathname.includes('blog.html');
+  
+  let postsToDisplay = posts;
+  if (isHomePage) {
+    postsToDisplay = posts.filter(post => post.featured).slice(0, 3);
+  }
+
+  blogGrid.innerHTML = postsToDisplay.map(post => `
     <div class="blog-card">
       <div class="blog-image">
         <img src="https://via.placeholder.com/400x250?text=${encodeURIComponent(post.title)}" alt="${post.title}">
