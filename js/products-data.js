@@ -361,6 +361,57 @@ const products = [
     keywords: "blue light blocking glasses, computer glasses, anti-glare glasses",
     inStock: true,
     featured: false
+  },
+  {
+    id: 22,
+    name: "Memory Foam Office Chair Cushion Premium",
+    category: "Furniture",
+    subcategory: "Chairs",
+    price: 3319,
+    originalPrice: 5149,
+    rating: 4.8,
+    reviews: 312,
+    image: "https://via.placeholder.com/300x300?text=Chair+Cushion",
+    description: "Premium memory foam seat cushion designed for office chairs. Provides superior comfort and lower back support during long work sessions.",
+    longDescription: "Transform your office chair with this premium memory foam cushion. Features high-density foam, ergonomic design, washable cover, and non-slip bottom. Perfect for improving comfort and reducing pressure points.",
+    tags: ["chair cushion", "memory foam", "ergonomic support", "office comfort", "back support"],
+    keywords: "office chair cushion memory foam, ergonomic seat cushion",
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 23,
+    name: "Floating Wall Shelf Set Modern Natural Wood",
+    category: "Furniture",
+    subcategory: "Storage",
+    price: 8299,
+    originalPrice: 11269,
+    rating: 4.7,
+    reviews: 276,
+    image: "https://via.placeholder.com/300x300?text=Floating+Shelf",
+    description: "Set of 3 modern floating shelves with natural wood finish. Minimalist design perfect for any room. Includes hidden brackets.",
+    longDescription: "Add sophisticated storage with these premium floating shelves. Features natural wood construction, invisible mounting brackets, easy installation, and modern aesthetic. Perfect for living rooms, bedrooms, and offices.",
+    tags: ["floating shelves", "wall shelves", "modern storage", "minimalist furniture", "wooden shelves"],
+    keywords: "floating shelves modern, wall mounted shelves, wooden floating shelf set",
+    inStock: true,
+    featured: false
+  },
+  {
+    id: 24,
+    name: "Anti-Slip Desk Pad Mouse Mat Extended XL",
+    category: "Study Setup",
+    subcategory: "Organization",
+    price: 2489,
+    originalPrice: 3734,
+    rating: 4.9,
+    reviews: 445,
+    image: "https://via.placeholder.com/300x300?text=Desk+Pad",
+    description: "Large XL desk pad with anti-slip base and smooth surface. Perfect for keyboard, mouse, and organizing your workspace. Stain-resistant material.",
+    longDescription: "Essential desk accessory featuring soft top surface, non-slip rubber base, stain-resistant coating, and generous XL size (35x16 inches). Protects desk surface while providing comfortable workspace for productivity.",
+    tags: ["desk pad", "mouse pad", "workspace organization", "desk protector", "anti-slip mat"],
+    keywords: "large desk pad XL, mouse pad extended, anti-slip desk mat",
+    inStock: true,
+    featured: true
   }
 ];
 
