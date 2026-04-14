@@ -282,5 +282,3 @@ This website template is created for educational and commercial purposes.
 **Created with:** HTML5, CSS3, Vanilla JavaScript
 
 Enjoy building your e-commerce presence with HomeStyle! 🏠✨
-=======
-# HomeStyle
