@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="HomeStyle Shopping Cart - Review, manage and checkout your furniture and home decor items.">
+    <meta name="robots" content="noindex, follow">
+    <title>Shopping Cart - HomeStyle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/luxury-redesign.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/cart-checkout.css">
+    <link rel="canonical" href="https://yourwebsite.com/cart.html">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="navbar">
+            <div class="logo"><a href="index.html">HomeStyle</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="nav-icon" data-search-icon>🔍</div>
+                <div class="nav-icon" data-cart-icon>
+                    🛒
+                    <span class="cart-count" data-cart-count style="display: none;">0</span>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Main Section -->
+    <section class="cart-container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <span>Shopping Cart</span>
+        </div>
+
+        <div class="cart-wrapper">
+            <!-- Left Column - Cart Items -->
+            <div class="cart-items-column">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h1 class="cart-heading">Shopping Cart</h1>
+                    <span style="background: var(--accent); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;" data-cart-items-count>0 items</span>
+                </div>
+                
+                <!-- Cart Items List -->
+                <div class="cart-items-list" data-cart-items-list>
+                    <!-- Items will be rendered here by JS -->
+                </div>
+
+                <!-- Empty Cart Message -->
+                <div class="empty-cart-message" data-empty-cart style="display: none;">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h2>Your Cart is Empty</h2>
+                    <p>Add items to your cart to get started</p>
+                    <a href="products.html" class="btn btn-primary">Continue Shopping</a>
+                </div>
+            </div>
+
+            <!-- Right Column - Cart Summary -->
+            <div class="cart-summary-column">
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    
+                    <div class="summary-section">
+                        <label for="promo-code" class="promo-label">Apply Coupon Code</label>
+                        <div class="promo-input-group">
+                            <input type="text" id="promo-code" placeholder="Enter coupon code" data-promo-input>
+                            <button class="btn-apply-promo" data-apply-promo>Apply</button>
+                        </div>
+                        <div class="promo-message" data-promo-message></div>
+                    </div>
+
+                    <div class="summary-section">
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span data-subtotal>₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Discount</span>
+                            <span data-discount class="discount-text">- ₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Shipping</span>
+                            <span data-shipping>FREE</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-item total">
+                            <span>Total Amount</span>
+                            <span data-total-amount>₹0</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-benefits">
+                        <div class="benefit">✓ Free Shipping on ₹4,000+</div>
+                        <div class="benefit">✓ 30-Day Returns</div>
+                        <div class="benefit">✓ Secure Checkout</div>
+                    </div>
+
+                    <button class="btn btn-primary btn-checkout" data-checkout-btn id="checkout-btn">
+                        Proceed to Checkout
+                    </button>
+
+                    <button class="btn btn-secondary btn-continue-shopping">
+                        <a href="products.html" style="color: inherit; text-decoration: none;">Continue Shopping</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Products Section -->
+        <section class="recommended-section" style="margin-top: 4rem;">
+            <h2>You Might Also Like</h2>
+            <div class="recommended-grid" data-recommended-grid>
+                <!-- Recommended products will be rendered here -->
+            </div>
+        </section>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>HomeStyle</h4>
+                <p>Premium furniture and home decor solutions for every space.</p>
+                <h5>Location</h5>
+                <p style="font-size: 0.9rem; color: #d1d5db;">Connaught Place, New Delhi,<br>Delhi 110001</p>
+                <div class="social-links">
+                    <a href="https://facebook.com" title="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://twitter.com" title="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="products.html">All Products</a></li>
+                    <li><a href="products.html?category=Furniture">Furniture</a></li>
+                    <li><a href="products.html?category=Home+Decor">Home Decor</a></li>
+                    <li><a href="products.html?category=Study+Setup">Study Setup</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="shipping-info.html">Shipping Info</a></li>
+                    <li><a href="returns-refunds.html">Returns & Refunds</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <p>Special offers and design tips delivered to your inbox</p>
+                <form data-newsletter-form>
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 HomeStyle. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

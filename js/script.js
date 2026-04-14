@@ -15,7 +15,7 @@ const closeCartBtn = document.querySelector('[data-close-cart]');
 const contactForm = document.querySelector('[data-contact-form]');
 
 // State Management
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let cart = []; // In-memory cart (no localStorage)
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 let filteredProducts = [...products];
 
@@ -148,9 +148,8 @@ function renderProducts(productsToRender) {
     return;
   }
 
-  // Check if this is the home page featured section or product listing page
-  const isHomePage = document.querySelector('[data-products-container]') && 
-                     document.querySelector('.products-section h2')?.textContent.includes('Featured');
+  // Check if this is the home page (not products.html page)
+  const isHomePage = !window.location.pathname.includes('products.html');
   
   let productsToDisplay = productsToRender;
 
@@ -218,14 +217,32 @@ function renderProducts(productsToRender) {
 
 // Add to Cart Functionality
 function setupAddToCartButtons() {
-  const addToCartBtns = document.querySelectorAll('.add-to-cart');
+  // Only attach listeners to buttons that don't have them yet
+  const addToCartBtns = document.querySelectorAll('.add-to-cart:not([data-listener-added])');
+  
   addToCartBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const productId = parseInt(btn.dataset.productId);
-      addToCart(productId);
-    });
+    // Mark this button as having a listener to prevent duplicate attachment
+    btn.setAttribute('data-listener-added', 'true');
+    
+    // Add single listener
+    btn.addEventListener('click', handleAddToCart, false);
   });
+}
+
+// Separate handler function to avoid inline confusion
+function handleAddToCart(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  const productId = parseInt(this.dataset.productId);
+  console.log('Add to cart clicked - Product ID:', productId);
+  
+  if (!productId) {
+    console.error('Invalid product ID');
+    return;
+  }
+  
+  addToCart(productId);
 }
 
 // Add Item to Cart
@@ -250,25 +267,81 @@ function addToCart(productId) {
 
   saveCart();
   updateCartCount();
-  showNotification(`${product.name} added to cart!`, 'success');
+  
+  // Show notification with cart link
+  const notification = document.createElement('div');
+  notification.className = 'alert alert-success';
+  notification.style.position = 'fixed';
+  notification.style.top = '80px';
+  notification.style.right = '20px';
+  notification.style.zIndex = '1000';
+  notification.style.maxWidth = '400px';
+  notification.style.animation = 'slideInUp 0.3s ease-out';
+  notification.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span>${product.name} added to cart!</span>
+      <a href="cart.html" style="color: white; text-decoration: underline; margin-left: 1rem; font-weight: 600;">View Cart →</a>
+    </div>
+  `;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideInUp 0.3s ease-out reverse';
+    setTimeout(() => notification.remove(), 300);
+  }, 4000);
 }
 
 // Remove from Cart
 function removeFromCart(productId) {
+  console.log('Removing product from cart:', productId);
+  
+  const productName = cart.find(item => item.id === productId)?.name || 'Item';
   cart = cart.filter(item => item.id !== productId);
   saveCart();
   updateCartCount();
-  renderCart();
+  
+  // Update cart page if on cart page
+  if (window.location.pathname.includes('cart.html')) {
+    console.log('On cart page, re-rendering...');
+    if (typeof renderFullCart === 'function') {
+      renderFullCart();
+    }
+    if (typeof updateCartPageSummary === 'function') {
+      updateCartPageSummary();
+    }
+    if (typeof renderRecommendedProducts === 'function') {
+      renderRecommendedProducts();
+    }
+  }
+  
+  // Fallback for modal
+  if (typeof renderCart === 'function') {
+    renderCart();
+  }
+  
+  showNotification(productName + ' removed from cart', 'info');
 }
 
 // Update Cart Quantity
 function updateCartQuantity(productId, quantity) {
   const item = cart.find(p => p.id === productId);
   if (item) {
-    item.quantity = Math.max(1, quantity);
+    const newQty = Math.max(1, parseInt(quantity) || 1);
+    item.quantity = newQty;
     saveCart();
     updateCartCount();
-    renderCart();
+    
+    // Update cart page if on cart page
+    if (window.location.pathname.includes('cart.html')) {
+      renderFullCart();
+      updateCartPageSummary();
+    }
+    
+    // Fallback for modal
+    if (typeof renderCart === 'function') {
+      renderCart();
+    }
   }
 }
 
@@ -314,44 +387,76 @@ function renderCart() {
   }
 }
 
-// Cart Modal Functions
+// Cart Modal Functions - Now redirects to cart page
 function toggleCartModal() {
-  if (cartModal.classList.contains('hidden')) {
-    openCartModal();
+  if (cart.length === 0) {
+    showNotification('Your cart is empty. Start shopping!', 'info');
+    window.location.href = 'products.html';
   } else {
-    closeCartModal();
+    window.location.href = 'cart.html';
   }
 }
 
 function openCartModal() {
-  cartModal.classList.remove('hidden');
-  renderCart();
-  document.body.style.overflow = 'hidden';
+  window.location.href = 'cart.html';
 }
 
 function closeCartModal() {
-  cartModal.classList.add('hidden');
-  document.body.style.overflow = 'auto';
+  // No longer needed - redirecting to cart page
+  if (cartModal && cartModal.classList) {
+    cartModal.classList.add('hidden');
+  }
 }
 
 // Update Cart Count Badge
 function updateCartCount() {
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (cartCount) {
-    cartCount.textContent = totalItems;
-    cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+  try {
+    // Ensure cart is an array
+    if (!Array.isArray(cart)) {
+      cart = JSON.parse(localStorage.getItem('cart')) || [];
+    }
+    
+    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    
+    // Try to find cart count element (in case it wasn't available on script load)
+    let cartCountEl = cartCount;
+    if (!cartCountEl) {
+      cartCountEl = document.querySelector('[data-cart-count]');
+    }
+    
+    if (cartCountEl) {
+      cartCountEl.textContent = totalItems;
+      cartCountEl.style.display = totalItems > 0 ? 'flex' : 'none';
+    }
+    
+    console.log('Cart count updated to:', totalItems);
+  } catch (error) {
+    console.error('Error updating cart count:', error);
   }
 }
 
-// Save Cart to LocalStorage
+// Cart persists in memory during session
+// Note: Cart clears on page refresh (no localStorage)
+
+// Save Cart (now in-memory only)
 function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
+  // Cart is stored in memory, not localStorage
+  console.log('Cart updated:', cart.length, 'items');
+  console.log('Current cart:', cart);
 }
 
-// Load Cart from LocalStorage
+// Load Cart (in-memory)
 function loadCart() {
-  cart = JSON.parse(localStorage.getItem('cart')) || [];
+  // Cart is initialized as empty array
+  // Ensure all items have quantity
+  if (Array.isArray(cart)) {
+    cart = cart.map(item => ({
+      ...item,
+      quantity: item.quantity || 1
+    }));
+  }
   updateCartCount();
+  console.log('Cart ready:', cart.length, 'items');
 }
 
 // Contact Form Handler
@@ -679,10 +784,19 @@ function renderBlogPosts(posts = blogPosts) {
   const blogGrid = document.querySelector('.blog-grid');
   if (!blogGrid) return;
 
-  blogGrid.innerHTML = posts.map(post => `
+  // Check if this is the home page (not products.html page)
+  const isHomePage = !window.location.pathname.includes('products.html') && 
+                     !window.location.pathname.includes('blog.html');
+  
+  let postsToDisplay = posts;
+  if (isHomePage) {
+    postsToDisplay = posts.filter(post => post.featured).slice(0, 3);
+  }
+
+  blogGrid.innerHTML = postsToDisplay.map(post => `
     <div class="blog-card">
       <div class="blog-image">
-        <img src="https://via.placeholder.com/400x250?text=${encodeURIComponent(post.title)}" alt="${post.title}">
+        <img src="${post.image}" alt="${post.title}">
       </div>
       <div class="blog-meta">
         <span class="blog-category">${post.category}</span>
