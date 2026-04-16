@@ -1,4 +1,4 @@
-# robots.txt - SEO Configuration for HomeStyle
+# robots.txt - SEO Configuration for HomeStyle Furniture Store
 
 User-agent: *
 Allow: /
@@ -8,16 +8,18 @@ Allow: /blog.html
 Allow: /contact.html
 Allow: /css/
 Allow: /js/
+Allow: /assets/
 Allow: /blog/
 
-# Disallow private pages (if any)
+# Disallow private pages
 Disallow: /admin/
 Disallow: /private/
+Disallow: /temp/
 
 # Sitemap location
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://shivangisingh13.github.io/HomeStyle/sitemap.xml
 
-# Crawl delay (in seconds)
+# Crawl delay (in seconds) - allows search engines to crawl at reasonable rate
 Crawl-delay: 1
 
 # Request rate (pages per second)

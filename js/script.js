@@ -268,28 +268,8 @@ function addToCart(productId) {
   saveCart();
   updateCartCount();
   
-  // Show notification with cart link
-  const notification = document.createElement('div');
-  notification.className = 'alert alert-success';
-  notification.style.position = 'fixed';
-  notification.style.top = '80px';
-  notification.style.right = '20px';
-  notification.style.zIndex = '1000';
-  notification.style.maxWidth = '400px';
-  notification.style.animation = 'slideInUp 0.3s ease-out';
-  notification.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span>${product.name} added to cart!</span>
-      <a href="cart.html" style="color: white; text-decoration: underline; margin-left: 1rem; font-weight: 600;">View Cart →</a>
-    </div>
-  `;
-
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.style.animation = 'slideInUp 0.3s ease-out reverse';
-    setTimeout(() => notification.remove(), 300);
-  }, 4000);
+  // Show notification
+  showNotification(product.name + ' added to cart!', 'success');
 }
 
 // Remove from Cart
@@ -300,26 +280,7 @@ function removeFromCart(productId) {
   cart = cart.filter(item => item.id !== productId);
   saveCart();
   updateCartCount();
-  
-  // Update cart page if on cart page
-  if (window.location.pathname.includes('cart.html')) {
-    console.log('On cart page, re-rendering...');
-    if (typeof renderFullCart === 'function') {
-      renderFullCart();
-    }
-    if (typeof updateCartPageSummary === 'function') {
-      updateCartPageSummary();
-    }
-    if (typeof renderRecommendedProducts === 'function') {
-      renderRecommendedProducts();
-    }
-  }
-  
-  // Fallback for modal
-  if (typeof renderCart === 'function') {
-    renderCart();
-  }
-  
+  renderCart();
   showNotification(productName + ' removed from cart', 'info');
 }
 
@@ -331,17 +292,7 @@ function updateCartQuantity(productId, quantity) {
     item.quantity = newQty;
     saveCart();
     updateCartCount();
-    
-    // Update cart page if on cart page
-    if (window.location.pathname.includes('cart.html')) {
-      renderFullCart();
-      updateCartPageSummary();
-    }
-    
-    // Fallback for modal
-    if (typeof renderCart === 'function') {
-      renderCart();
-    }
+    renderCart();
   }
 }
 
@@ -387,25 +338,26 @@ function renderCart() {
   }
 }
 
-// Cart Modal Functions - Now redirects to cart page
+// Cart Modal Functions - Show/Hide Sidebar
 function toggleCartModal() {
-  if (cart.length === 0) {
-    showNotification('Your cart is empty. Start shopping!', 'info');
-    window.location.href = 'products.html';
+  if (!cartModal) return;
+  const isHidden = cartModal.style.display === 'none';
+  if (isHidden) {
+    openCartModal();
   } else {
-    window.location.href = 'cart.html';
+    closeCartModal();
   }
 }
 
 function openCartModal() {
-  window.location.href = 'cart.html';
+  if (!cartModal) return;
+  cartModal.style.display = 'flex';
+  renderCart();
 }
 
 function closeCartModal() {
-  // No longer needed - redirecting to cart page
-  if (cartModal && cartModal.classList) {
-    cartModal.classList.add('hidden');
-  }
+  if (!cartModal) return;
+  cartModal.style.display = 'none';
 }
 
 // Update Cart Count Badge

@@ -3,7 +3,6 @@
 A modern, SEO-optimized e-commerce website built with HTML, CSS, and JavaScript featuring furniture, home decor, and study setup products.
 
 ## 📁 Project Structure
-
 ```
 digital/
 ├── index.html                 # Homepage with hero section
